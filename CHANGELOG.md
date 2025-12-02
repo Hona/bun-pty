@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2025-12-01
+
+### Added
+- Support for passing environment variables via options (#9)
+
+### Fixed
+- Fixed data loss in PTY read operations (#8)
+- Fixed capture of actual exit code from child process (#10)
+- Fixed build process and configuration
+
+### Changed
+- Removed rust build artifacts and updated .gitignore (#7)
+
+## [0.3.2] - 2025-06-20
+
+### Changed
+- Updated package.json version
+- Updated example to work with installed bun-pty package
+
+### Fixed
+- Removed erroneous console log (#4)
+
+## [0.3.1] - 2025-05-15
+
+### Fixed
+- Fixed path resolution on Docker environments
+
+## [0.3.0] - 2025-05-15
+
+### Fixed
+- Fixed release pipeline configuration
+
 ## [0.2.1] - 2025-05-15
 
 ### Fixed
