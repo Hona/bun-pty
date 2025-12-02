@@ -247,9 +247,9 @@ test("Terminal can detect non-zero exit codes", async () => {
   }
   
   expect(exitEvent).not.toBeNull();
-  if (exitEvent) {
-    expect(exitEvent.exitCode).not.toBe(0); // false exits with 1
-  }
+  // TypeScript doesn't recognize expect().not.toBeNull() as a type guard
+  const event = exitEvent!;
+  expect(event.exitCode).not.toBe(0); // false exits with 1
 });
 test("Terminal handles large output without data loss", async () => {
   let dataReceived = "";
@@ -294,7 +294,7 @@ test("Terminal handles large output without data loss", async () => {
   console.log(`[TEST] Received ${lines.length} lines of output`);
   
   // Check that we got all 1000 lines
-  const missingLines = [];
+  const missingLines: number[] = [];
   for (let i = 1; i <= 1000; i++) {
     if (!dataReceived.includes(`Line ${i}:`)) {
       missingLines.push(i);
