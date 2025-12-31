@@ -32,6 +32,20 @@ function resolveLibPath(): string {
 	const env = process.env.BUN_PTY_LIB;
 	if (env && existsSync(env)) return env;
 
+	// For bun compile: use statically analyzable require with inline ternary.
+	// Bun evaluates process.platform and process.arch at compile time and only
+	// bundles the file for the target platform. The ternary MUST be inline
+	// in the template literal for Bun's static analysis to work.
+	// See: https://github.com/sursaone/bun-pty/issues/19
+	try {
+		// @ts-ignore - require returns path for binary files in Bun
+		const embeddedPath = require(`../rust-pty/target/release/${process.platform === "win32" ? "rust_pty.dll" : process.platform === "darwin" ? (process.arch === "arm64" ? "librust_pty_arm64.dylib" : "librust_pty.dylib") : process.arch === "arm64" ? "librust_pty_arm64.so" : "librust_pty.so"}`);
+		if (embeddedPath) return embeddedPath;
+	} catch {
+		// Not running as compiled binary, fall through to dynamic resolution
+	}
+
+	// Fallback: dynamic resolution for development scenarios
 	const platform = process.platform;
 	const arch = process.arch;
 

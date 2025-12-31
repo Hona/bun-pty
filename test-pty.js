@@ -2,8 +2,10 @@ import { dlopen, FFIType, suffix, ptr } from "bun:ffi";
 import { join } from "node:path";
 import { existsSync } from "node:fs";
 
-// Find the library path
-const libraryPath = join(import.meta.dir, "rust-pty", "target", "release", `librust_pty.${suffix}`);
+// Find the library path (Windows doesn't use 'lib' prefix)
+const isWindows = process.platform === "win32";
+const libraryName = isWindows ? `rust_pty.${suffix}` : `librust_pty.${suffix}`;
+const libraryPath = join(import.meta.dir, "rust-pty", "target", "release", libraryName);
 if (!existsSync(libraryPath)) {
   console.error(`Error: Library not found at ${libraryPath}`);
   console.error("Please build the library first with 'cd rust-pty && cargo build --release'");
