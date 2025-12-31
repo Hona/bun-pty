@@ -148,8 +148,8 @@ export class Terminal implements IPty {
 		this._cols = opts.cols ?? DEFAULT_COLS;
 		this._rows = opts.rows ?? DEFAULT_ROWS;
 		const cwd = opts.cwd ?? process.cwd();
-		// Properly quote arguments to preserve spaces and special characters
-		const cmdline = [file, ...args.map(shQuote)].join(" ");
+		// Properly quote file and arguments to preserve spaces and special characters
+		const cmdline = [shQuote(file), ...args.map(shQuote)].join(" ");
 
 		// Format environment variables as null-terminated string
 		let envStr = "";
